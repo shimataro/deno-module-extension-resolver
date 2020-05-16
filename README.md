@@ -1,5 +1,7 @@
 # deno-module-extension-resolver
 
+Resolves module extensions in `import` / `export from`.
+
 This is a **NPM package** for deno.
 
 ## Install
