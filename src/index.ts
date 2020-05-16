@@ -18,8 +18,7 @@ function main(commandName: string, args: string[]): number
 		return 1;
 	}
 
-	const srcDir = args[0];
-	const dstDir = args[1];
+	const [srcDir, dstDir] = args;
 	if(!fs.existsSync(srcDir))
 	{
 		usage(commandName);
@@ -80,6 +79,7 @@ function build(sourceFile: ts.SourceFile): string
 /**
  * transformer factory
  * @param context transformation context
+ * @returns transformer
  */
 function transformerFactory(context: ts.TransformationContext): ts.Transformer<ts.SourceFile>
 {
@@ -144,7 +144,7 @@ function resolveModuleName(moduleName: string, baseDir: string): string
 		return moduleName;
 	}
 
-	const base = path.isAbsolute(moduleName) ? moduleName : path.join(baseDir, moduleName);
+	const base = getBaseModuleDirectory(moduleName, baseDir);
 	for(const ext of ["", ".ts", ".js"])
 	{
 		const resolvedName = `${base}${ext}`;
@@ -156,6 +156,7 @@ function resolveModuleName(moduleName: string, baseDir: string): string
 	}
 
 	// not resolved
+	console.warn(`[WARN] Module not resolved: ${moduleName}`);
 	return moduleName;
 }
 
@@ -181,6 +182,24 @@ function shouldResolve(moduleName: string): boolean
 }
 
 /**
+ * get base module directory
+ * @param moduleName module name
+ * @param baseDir base directory
+ * @returns base module directory
+ */
+function getBaseModuleDirectory(moduleName: string, baseDir: string): string
+{
+	if(path.isAbsolute(moduleName))
+	{
+		return moduleName;
+	}
+	else
+	{
+		return path.join(baseDir, moduleName);
+	}
+}
+
+/**
  * output built source
  * @param builtSource built source code
  * @param fileName file name to output
@@ -201,13 +220,8 @@ function output(builtSource: string, fileName: string): void
 		{
 			return;
 		}
-		console.error(`Output error: ${err.message}`);
+		console.error(`[ERROR] Output error: ${err.message}`);
 	});
 }
 
 main(path.basename(process.argv[1]), process.argv.slice(2));
-process
-	.on("exit", (code) =>
-	{
-		process.exit(code);
-	});
