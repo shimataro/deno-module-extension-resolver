@@ -13,3 +13,7 @@ npm i deno-module-extension-resolver
 ```bash
 deno-module-extension-resolver SRC_DIR DST_DIR
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
