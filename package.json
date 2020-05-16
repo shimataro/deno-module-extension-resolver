@@ -1,0 +1,41 @@
+{
+  "name": "deno-module-extension-resolver",
+  "version": "0.1.0",
+  "description": "NPM module to resolve import module extension for Deno",
+  "bin": {
+    "deno-module-extension-resolver": "bin/deno-module-extension-resolver"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check-updates": "ncu",
+    "verify": "run-p lint",
+    "lint": "run-p lint:*",
+    "lint:ts": "eslint ./src --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shimataro/deno-module-extension-resolver.git"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=5.6.0"
+  },
+  "author": "shimataro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shimataro/deno-module-extension-resolver/issues"
+  },
+  "homepage": "https://github.com/shimataro/deno-module-extension-resolver#readme",
+  "devDependencies": {
+    "@types/node": "14.0.1",
+    "@typescript-eslint/eslint-plugin": "2.33.0",
+    "@typescript-eslint/parser": "2.33.0",
+    "eslint": "7.0.0",
+    "npm-check-updates": "6.0.1",
+    "npm-run-all": "4.1.5"
+  },
+  "dependencies": {
+    "fast-glob": "3.2.2",
+    "typescript": "3.9.2"
+  }
+}
