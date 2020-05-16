@@ -1,5 +1,10 @@
 # deno-module-extension-resolver
 
+![Ubuntu](https://github.com/shimataro/deno-module-extension-resolver/workflows/Ubuntu/badge.svg)
+[![Release](https://img.shields.io/github/release/shimataro/deno-module-extension-resolver.svg)](https://github.com/shimataro/deno-module-extension-resolver/releases)
+[![Engine](https://img.shields.io/node/v/deno-module-extension-resolver.svg)](https://nodejs.org/)
+[![License](https://img.shields.io/github/license/shimataro/deno-module-extension-resolver.svg)](./LICENSE)
+
 Resolves module extensions in `import` / `export from`.
 
 This is a **NPM package** for deno.

@@ -9,5 +9,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * First release.
 
-[Unreleased]: https://github.com/shimataro/value-schema/compare/v0.0.0...HEAD
-[0.1.0]: https://github.com/shimataro/value-schema/compare/533f3ee01293bb734252f421975c11140c3aae71...v0.0.0
+[Unreleased]: https://github.com/shimataro/deno-module-extension-resolver/compare/v0.0.0...HEAD
+[0.1.0]: https://github.com/shimataro/deno-module-extension-resolver/compare/533f3ee01293bb734252f421975c11140c3aae71...v0.0.0
