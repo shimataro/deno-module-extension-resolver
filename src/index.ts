@@ -124,6 +124,7 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
 			return node;
 		}
 
+		// resolve if node is StringLiteral in ImportDeclaration/ExportDeclaration
 		const moduleName = node.text;
 		const baseDir = path.dirname(sourceFileName);
 		const resolvedModuleName = resolveModuleExtension(moduleName, baseDir);
@@ -209,6 +210,7 @@ function output(builtSource: string, fileName: string): void
 	const dirName = path.dirname(fileName);
 	if(!fs.existsSync(dirName))
 	{
+		// create directories recursively if not exist
 		fs.mkdirSync(dirName, {
 			recursive: true,
 		});
