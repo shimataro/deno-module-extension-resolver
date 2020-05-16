@@ -2,8 +2,18 @@
 
 This is a **NPM package** for deno.
 
-## usage
+## Install
+
+```bash
+npm i deno-module-extension-resolver
+```
+
+## Usage
 
 ```bash
 deno-module-extension-resolver SRC_DIR DST_DIR
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
