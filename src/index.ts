@@ -18,26 +18,26 @@ function main(commandName: string, args: string[]): number
 		return 1;
 	}
 
-	const [srcDir, dstDir] = args;
-	if(!fs.existsSync(srcDir))
+	const [srcDirName, dstDirName] = args;
+	if(!fs.existsSync(srcDirName))
 	{
 		usage(commandName);
 		return 1;
 	}
 
-	const files = findEntries(srcDir);
-	const program = ts.createProgram(files, {});
-	for(const file of files)
+	const srcFileNames = findEntries(srcDirName);
+	const program = ts.createProgram(srcFileNames, {});
+	for(const srcFileName of srcFileNames)
 	{
-		const sourceFile = program.getSourceFile(file);
+		const sourceFile = program.getSourceFile(srcFileName);
 		if(sourceFile === undefined)
 		{
 			continue;
 		}
 
-		const builtSource = build(sourceFile);
-		const dstFile = path.join(dstDir, path.relative(srcDir, file));
-		output(builtSource, dstFile);
+		const builtCode = build(sourceFile);
+		const dstFileName = path.join(dstDirName, path.relative(srcDirName, srcFileName));
+		output(builtCode, dstFileName);
 	}
 	return 0;
 }
@@ -126,7 +126,7 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
 
 		const moduleName = node.text;
 		const baseDir = path.dirname(sourceFileName);
-		const resolvedModuleName = resolveModuleName(moduleName, baseDir);
+		const resolvedModuleName = resolveModuleExtension(moduleName, baseDir);
 		return ts.createStringLiteral(resolvedModuleName);
 	};
 }
@@ -134,20 +134,20 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
 /**
  * resolves module name
  * @param moduleName modle name
- * @param baseDir base directory
+ * @param baseDirName base directory
  * @returns resolved module name
  */
-function resolveModuleName(moduleName: string, baseDir: string): string
+function resolveModuleExtension(moduleName: string, baseDirName: string): string
 {
 	if(!shouldResolve(moduleName))
 	{
 		return moduleName;
 	}
 
-	const base = getBaseModuleDirectory(moduleName, baseDir);
+	const resolvedPath = resolveModulePath(moduleName, baseDirName);
 	for(const ext of ["", ".ts", ".js"])
 	{
-		const resolvedName = `${base}${ext}`;
+		const resolvedName = `${resolvedPath}${ext}`;
 		if(fs.existsSync(resolvedName))
 		{
 			// resolved
@@ -182,12 +182,12 @@ function shouldResolve(moduleName: string): boolean
 }
 
 /**
- * get base module directory
- * @param moduleName module name
+ * resolve module path
+ * @param moduleName module name to resolve
  * @param baseDir base directory
- * @returns base module directory
+ * @returns resolved path
  */
-function getBaseModuleDirectory(moduleName: string, baseDir: string): string
+function resolveModulePath(moduleName: string, baseDir: string): string
 {
 	if(path.isAbsolute(moduleName))
 	{
@@ -195,7 +195,7 @@ function getBaseModuleDirectory(moduleName: string, baseDir: string): string
 	}
 	else
 	{
-		return path.join(baseDir, moduleName);
+		return path.resolve(baseDir, moduleName);
 	}
 }
 
