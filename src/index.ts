@@ -139,7 +139,7 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
  */
 function resolveModuleExtension(moduleName: string, baseDirName: string): string
 {
-	if(!shouldResolve(moduleName))
+	if(!shouldResolveModuleExtension(moduleName))
 	{
 		return moduleName;
 	}
@@ -165,7 +165,7 @@ function resolveModuleExtension(moduleName: string, baseDirName: string): string
  * @param moduleName module name
  * @returns Yes/No
  */
-function shouldResolve(moduleName: string): boolean
+function shouldResolveModuleExtension(moduleName: string): boolean
 {
 	if(path.isAbsolute(moduleName))
 	{
