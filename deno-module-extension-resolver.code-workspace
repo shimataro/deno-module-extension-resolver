@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"EditorConfig.EditorConfig",
+			"eg2.vscode-npm-script"
+		]
+	}
 }
