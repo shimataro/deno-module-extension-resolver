@@ -207,14 +207,7 @@ function resolveModulePath(moduleName: string, baseDir: string): string
  */
 function output(builtSource: string, fileName: string): void
 {
-	const dirName = path.dirname(fileName);
-	if(!fs.existsSync(dirName))
-	{
-		// create directories recursively if not exist
-		fs.mkdirSync(dirName, {
-			recursive: true,
-		});
-	}
+	createDirectoriesIfNotExist(fileName);
 
 	fs.writeFile(fileName, builtSource, (err) =>
 	{
@@ -223,6 +216,24 @@ function output(builtSource: string, fileName: string): void
 			return;
 		}
 		console.error(`[ERROR] Output error: ${err.message}`);
+	});
+}
+
+/**
+ * create directories recursively if not exist
+ * @param fileName file name
+ */
+function createDirectoriesIfNotExist(fileName: string): void
+{
+	const dirName = path.dirname(fileName);
+	if(fs.existsSync(dirName))
+	{
+		// already exists
+		return;
+	}
+
+	fs.mkdirSync(dirName, {
+		recursive: true,
 	});
 }
 
