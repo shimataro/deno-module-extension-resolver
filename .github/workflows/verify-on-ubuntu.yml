@@ -1,7 +1,9 @@
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions
 
-on: push
-name: Linux
+name: Ubuntu
+on:
+- push
+- pull_request
 jobs:
   verify:
     name: Verify
