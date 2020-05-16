@@ -100,13 +100,15 @@ function visitorFactory(sourceFileName: string, context: ts.TransformationContex
 {
 	return (node: ts.Node): ts.VisitResult<ts.Node> =>
 	{
-		node = ts.visitEachChild(node, visitorFactory(sourceFileName, context), context);
 		if(ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
 		{
+			// in "import" / "export from" statement
 			return ts.visitEachChild(node, visitorResolverFactory(sourceFileName), context);
 		}
-
-		return node;
+		else
+		{
+			return ts.visitEachChild(node, visitorFactory(sourceFileName, context), context);
+		}
 	};
 }
 
