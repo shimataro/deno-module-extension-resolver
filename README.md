@@ -7,7 +7,7 @@
 
 Resolves module extensions in `import` / `export from`.
 
-This is a **NPM package** for deno.
+This is a **NPM package** for [Deno](https://deno.land/).
 
 ## Install
 
