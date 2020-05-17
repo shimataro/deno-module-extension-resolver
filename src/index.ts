@@ -19,7 +19,7 @@ function main(commandName: string, args: string[]): number
 	}
 
 	const [srcDirName, dstDirName] = args;
-	if(!fs.existsSync(srcDirName))
+	if(!isDirectory(srcDirName))
 	{
 		usage(commandName);
 		return 1;
@@ -102,7 +102,7 @@ function visitorFactory(sourceFileName: string, context: ts.TransformationContex
 	{
 		if(ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
 		{
-			// in "import" / "export from" statement
+			// "import" / "export from" statement
 			return ts.visitEachChild(node, visitorResolverFactory(sourceFileName), context);
 		}
 		else
@@ -148,10 +148,10 @@ function resolveModuleExtension(moduleName: string, baseDirName: string): string
 	}
 
 	const resolvedPath = resolveModulePath(moduleName, baseDirName);
-	for(const ext of ["", ".ts", ".js"])
+	for(const ext of ["", ".ts", ".js", "/index.ts", "/index.js"])
 	{
 		const resolvedName = `${resolvedPath}${ext}`;
-		if(fs.existsSync(resolvedName))
+		if(isFile(resolvedName))
 		{
 			// resolved
 			return `${moduleName}${ext}`;
@@ -228,7 +228,7 @@ function output(builtSource: string, fileName: string): void
 function createDirectoriesIfNotExist(fileName: string): void
 {
 	const dirName = path.dirname(fileName);
-	if(fs.existsSync(dirName))
+	if(isDirectory(dirName))
 	{
 		// already exists
 		return;
@@ -237,6 +237,42 @@ function createDirectoriesIfNotExist(fileName: string): void
 	fs.mkdirSync(dirName, {
 		recursive: true,
 	});
+}
+
+/**
+ * is dirName directory?
+ * @param dirName dirname to check
+ * @returns Yes/No
+ */
+function isDirectory(dirName: string): boolean
+{
+	try
+	{
+		const stats = fs.statSync(dirName);
+		return stats.isDirectory();
+	}
+	catch(err)
+	{
+		return false;
+	}
+}
+
+/**
+ * is fileName file?
+ * @param fileName filename to check
+ * @returns Yes/No
+ */
+function isFile(fileName: string): boolean
+{
+	try
+	{
+		const stats = fs.statSync(fileName);
+		return stats.isFile();
+	}
+	catch(err)
+	{
+		return false;
+	}
 }
 
 main(path.basename(process.argv[1]), process.argv.slice(2));
