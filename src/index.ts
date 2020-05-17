@@ -142,10 +142,8 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
  */
 function resolveModuleExtension(moduleName: string, baseDirName: string): string
 {
-	console.log("AA", moduleName);
 	if(!shouldResolveModuleExtension(moduleName))
 	{
-		console.log("BB");
 		return moduleName;
 	}
 
@@ -156,7 +154,6 @@ function resolveModuleExtension(moduleName: string, baseDirName: string): string
 		if(isFile(resolvedName))
 		{
 			// resolved
-			console.log(ext);
 			return `${moduleName}${ext}`;
 		}
 	}
