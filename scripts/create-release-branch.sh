@@ -2,8 +2,7 @@
 # requires following packages:
 # - git; I believe you have already installed.
 # - sed; GNU sed is preferred. POSIX sed may not work.
-
-set -e
+set -eu
 
 BASE_BRANCH="develop"
 
@@ -124,7 +123,8 @@ function update_dependencies_version() {
 
 function regenerate_npm_shrinkwrap() {
 	rm -rf npm-shrinkwrap.json node_modules
-	npm install
+	npm i
+	npm dedupe
 	npm shrinkwrap
 }
 
