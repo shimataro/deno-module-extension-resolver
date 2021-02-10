@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import glob from "fast-glob";
-import ts from "typescript";
+import ts, {SyntaxKind} from "typescript";
 
 /**
  * main function
@@ -58,7 +58,7 @@ function usage(commandName: string): void
  */
 export function findEntries(dirName: string): string[]
 {
-	const source = `${dirName}/**/*.{ts,js}`;
+	const source = path.join(dirName, "**", "*.{ts,js}");
 	return glob.sync(source);
 }
 
@@ -105,10 +105,12 @@ function visitorFactory(sourceFileName: string, context: ts.TransformationContex
 			// "import" / "export from" statement
 			return ts.visitEachChild(node, visitorResolverFactory(sourceFileName), context);
 		}
-		else
+		if(ts.isCallExpression(node) && node.expression.kind === SyntaxKind.ImportKeyword)
 		{
-			return ts.visitEachChild(node, visitorFactory(sourceFileName, context), context);
+			// dynamic import
+			return ts.visitEachChild(node, visitorResolverFactory(sourceFileName), context);
 		}
+		return ts.visitEachChild(node, visitorFactory(sourceFileName, context), context);
 	};
 }
 
