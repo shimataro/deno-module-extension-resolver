@@ -2,8 +2,7 @@
 # requires following packages:
 # - git; I believe you have already installed.
 # - sed; GNU sed is preferred. POSIX sed may not work.
-
-set -e
+set -eu
 
 BASE_BRANCH="develop"
 
