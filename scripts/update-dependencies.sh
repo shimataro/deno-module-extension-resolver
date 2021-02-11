@@ -1,7 +1,6 @@
 #!/bin/bash
 # update dependencies
-
-set -e
+set -eu
 
 DATE=$(date +"%Y%m%d")
 BRANCH=feature/update-dependencies-${DATE}
@@ -20,14 +19,15 @@ npm run check-updates -- -u
 # re-install packages
 rm -rf npm-shrinkwrap.json node_modules
 npm i
+npm dedupe
+npm shrinkwrap
+git add package.json npm-shrinkwrap.json
 
 # test
 npm run build
 npm run verify
 
 # commit
-npm shrinkwrap
-git add package.json npm-shrinkwrap.json
 git commit -m "update dependencies"
 
 # finished!
