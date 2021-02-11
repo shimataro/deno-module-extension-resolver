@@ -1,6 +1,6 @@
 {
   "name": "deno-module-extension-resolver",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "NPM module to resolve import module extension for Deno",
   "bin": {
     "deno-module-extension-resolver": "bin/deno-module-extension-resolver"
@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "fast-glob": "3.2.5",
-    "typescript": "4.1.4"
+    "typescript": "4.1.5"
   }
 }
