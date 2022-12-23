@@ -38,8 +38,8 @@ function main() {
 	check_current_branch
 
 	create_branch ${BRANCH}
+	update_package_version ${VERSION}
 	update_changelog ${VERSION}
-	regenerate_npm_shrinkwrap
 	verify_package
 	commit_changes ${VERSION}
 	finish ${VERSION} ${BRANCH} ${TAG}
