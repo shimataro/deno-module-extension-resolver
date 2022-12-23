@@ -132,7 +132,7 @@ function visitorResolverFactory(sourceFileName: string): ts.Visitor
 		const moduleName = node.text;
 		const baseDir = path.dirname(sourceFileName);
 		const resolvedModuleName = resolveModuleExtension(moduleName, baseDir);
-		return ts.createStringLiteral(resolvedModuleName);
+		return ts.factory.createStringLiteral(resolvedModuleName);
 	};
 }
 
